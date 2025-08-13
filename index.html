@@ -1,0 +1,170 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pardhuzz Movie Ticket Booking</title>
+<style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background: url('https://images.unsplash.com/photo-1517602302552-471fe67acf66') no-repeat center center/cover;
+        position: relative;
+        color: white;
+    }
+    body::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 0;
+    }
+    .container {
+        position: relative;
+        z-index: 1;
+        max-width: 500px;
+        margin: 50px auto;
+        background: rgba(255,255,255,0.1);
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0px 4px 20px rgba(0,0,0,0.5);
+        backdrop-filter: blur(10px);
+    }
+    header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    header h1 {
+        font-size: 28px;
+        color: #ffcc00;
+    }
+    label {
+        display: block;
+        margin: 10px 0 5px;
+        font-weight: bold;
+    }
+    select, input {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+    button {
+        width: 100%;
+        padding: 12px;
+        font-size: 18px;
+        background: #ffcc00;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+    button:hover {
+        background: #ffdb4d;
+        transform: scale(1.03);
+    }
+    .poster {
+        text-align: center;
+        margin: 15px 0;
+    }
+    .poster img {
+        max-width: 100%;
+        border-radius: 10px;
+        box-shadow: 0px 4px 15px rgba(0,0,0,0.6);
+    }
+    .success {
+        background: rgba(0, 255, 100, 0.2);
+        padding: 15px;
+        margin-top: 15px;
+        border-radius: 8px;
+        text-align: center;
+        display: none;
+    }
+    @media (max-width: 600px) {
+        .container {
+            margin: 20px;
+            padding: 15px;
+        }
+        header h1 {
+            font-size: 22px;
+        }
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎬 Pardhuzz Movie Ticket Booking</h1>
+        </header>
+
+        <label>Select Movie:</label>
+        <select id="movie" onchange="showPoster()">
+            <option value="">--Choose a Movie--</option>
+            <option value="gabbar">Gabbar Singh</option>
+            <option value="attarin">Attarintiki Daredi</option>
+            <option value="kushi">Kushi</option>
+            <option value="vakeel">Vakeel Saab</option>
+            <option value="bheemla">Bheemla Nayak</option>
+        </select>
+
+        <div class="poster" id="poster"></div>
+
+        <label>Select Date:</label>
+        <input type="date" id="date">
+
+        <label>Select Time:</label>
+        <select id="time">
+            <option value="">--Choose Time--</option>
+            <option>10:00 AM</option>
+            <option>1:00 PM</option>
+            <option>4:00 PM</option>
+            <option>7:00 PM</option>
+            <option>10:00 PM</option>
+        </select>
+
+        <label>Number of Seats:</label>
+        <input type="number" id="seats" min="1" max="10">
+
+        <button onclick="bookTicket()">Book Ticket</button>
+
+        <div id="confirmation" class="success"></div>
+    </div>
+
+    <script>
+        function showPoster() {
+            let movie = document.getElementById("movie").value;
+            let posterDiv = document.getElementById("poster");
+            let posters = {
+                "gabbar": "https://upload.wikimedia.org/wikipedia/en/3/38/Gabbar_Singh_poster.jpg",
+                "attarin": "https://upload.wikimedia.org/wikipedia/en/3/3a/Attarintiki_Daredi_poster.jpg",
+                "kushi": "https://upload.wikimedia.org/wikipedia/en/c/c2/Kushi_movie_poster.jpg",
+                "vakeel": "https://upload.wikimedia.org/wikipedia/en/5/57/Vakeel_Saab_poster.jpg",
+                "bheemla": "https://upload.wikimedia.org/wikipedia/en/7/73/Bheemla_Nayak_poster.jpg"
+            };
+
+            posterDiv.innerHTML = movie ? `<img src="${posters[movie]}" alt="Movie Poster">` : "";
+        }
+
+        function bookTicket() {
+            let movieSelect = document.getElementById("movie");
+            let movie = movieSelect.options[movieSelect.selectedIndex].text;
+            let date = document.getElementById("date").value;
+            let time = document.getElementById("time").value;
+            let seats = document.getElementById("seats").value;
+            let confirmation = document.getElementById("confirmation");
+
+            if(movie && date && time && seats) {
+                confirmation.innerHTML = `✅ Ticket booked for <b>${movie}</b> on <b>${date}</b> at <b>${time}</b> for <b>${seats}</b> seat(s).`;
+                confirmation.style.display = "block";
+            } else {
+                alert("Please fill all fields before booking!");
+            }
+        }
+    </script>
+</body>
+</html>
